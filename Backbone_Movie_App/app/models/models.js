@@ -15,7 +15,7 @@ define( ['jquery', 'backbone'],
 			
 				//This url function is automatically called in a Backbone model when fetch is called, see fetchData.
 				url: function() {
-					var url = 'http://localhost:3000/',
+					var url = 'http://192.168.1.7:3000/',
 				 		movie = this.movie,
 						searchType = this.searchType;
 			
