@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+
+	<head>
+	    <meta charset="utf-8"/>
+	    <title>Movie Database</title>
+	   
+	    
+	    <!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css"/> -->
+		<link rel="stylesheet" href="/Users/diarmuidsmith/jQuery Mobile/jquery.mobile-1.0/jquery.mobile-1.0.min.css" />
+		<link rel="stylesheet" href="css/additional_themes.css" />
+	    <script data-main="app/main" type="text/javascript" src="app/libs/require/require-1.0.2.min.js"></script>
+	
+	<!-- Template to be used for the Movie List view -->
+	<script type="text/x-tmpl-mustache" id="movie-list-item-template">
+			<li>
+				<!--<a href="#movie/{{ id }}" data-ajax="false" identifier="{{ id }}">-->
+				<a id="{{ id }}" identifier="{{ id }}" class="movieClick">
+					<img title={{ title }} src="http://cf2.imgobject.com/t/p/w92{{poster_path}}"/>
+					<h3> {{ title }} &nbsp; ({{ release_date }}) </h3>
+				</a>
+			</li>	
+	</script>
+	
+	<!-- Template to be used for the Movie Details view -->
+	<script type="text/x-tmpl-mustache" id="movie-details-template">
+		<section class='ui-grid-a'>
+        	
+			<div class='ui-block-a'>
+	            
+				<img align='left' title="{{ title }}" src='{{ poster_path }}'/>
+	        
+			</div>
+	        
+			
+			<div class='ui-block-b'>
+	            
+				{{ title }} &nbsp; ( {{ release_date }} )
+	            
+				<br />
+	 
+				
+				Rating &nbsp; {{ rating }} 
+				
+				<br />
+				Certification &nbsp;{{ cert }}
+				
+			</div>
+	    
+		</section>
+ 
+		<div id="detailsInfo">
+			<b>Details</b><br />
+			<hr>
+			
+			<div id="movieSummary">
+			
+				<ul id="moviedetailsview" data-role="listview" data-inset="true" data-theme="c" data-dividertheme="c">
+					<li data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-thumb ui-corner-top ui-btn-up-c">
+						&nbsp;&nbsp;
+						<div class="ui-btn-inner ui-li ui-corner-top" aria-hidden="true">
+							<div class="ui-btn-text">
+    							<b>Movie Summary</b> 
+    							<br/>
+    					
+    							<!--<a id="summaryLink" href='#movieoverview' data-ajax="false" >{{ overview }}</a>-->
+								<a id="{{ id }}" identifier="{{ id }}" class="movieDetailsClick">{{ overview }}</a>
+								<!--<a href='#movieoverview' data-ajax="false" >{{ overview }}</a>-->
+							</div>
+							<span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span>
+						</div>
+    				</li>
+    				<li data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-thumb ui-btn-up-c">
+						<div class="ui-btn-inner ui-li" aria-hidden="true">
+							<div class="ui-btn-text">
+    							<b>Release Date</b>
+    							<br/>
+    							{{ full_release_date }}
+    							<br />
+							</div>
+						</div>
+    				</li>
+    				<li data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-thumb ui-btn-up-c">
+						<div class="ui-btn-inner ui-li" aria-hidden="true">
+							<div class="ui-btn-text">
+    							<b>Genre</b>
+    							<br />
+    							{{ genres }}
+							</div>
+						</div>
+    				</li>
+    				<li data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-thumb ui-corner-bottom ui-btn-up-c">
+						<div class="ui-btn-inner" aria-hidden="true">
+							<div class="ui-btn-text">
+    							<b>Rating</b>
+    							<br/>
+    							{{ rating }}
+							</div>
+						</div>
+    				</li>
+    			</ul>
+    		</div>
+		</div>
+	</script>
+	
+	<!-- Template for Summary page view -->
+	<script type="text/template" id="movie-overview-template"> 
+		<div id='overview'>
+			<h1> Description </h1>
+			<hr>
+			{{ overview }}
+		</div>
+	</script>
+	
+	</head>
+	
+	<body>
+	
+		<!--
+		/********************************************************
+		*  Index/Home 
+		*********************************************************/
+		-->
+		
+		<div id="index" data-role="page" data-theme="b">
+		
+		    <div class="app-header" data-role="header" data-theme="b">
+		        <h1 class="app-title">Movie Database</h1>
+		    </div>
+		
+		    <div data-role="content" id="content-main" data-theme="d">
+		
+		
+		        <div id="appview">
+		
+		            <div id="homeheader">
+		            </div>
+		
+		            <div data-role='fieldcontainer'> 
+						<input type='search' id='search' name='search' placeholder='Search Movie Database'> 
+					</div>
+		        </div>
+		    </div>
+			
+			<div data-role="footer"  data-position="fixed" data-theme="b">
+				<div data-role="navbar">
+		            <center>Footer</center>
+		        </div>
+			</div>
+				
+		</div>
+		
+		<!--
+		/********************************************************
+		*  ListView
+		*********************************************************/
+		-->
+		
+		<div id="search" data-role="page" data-theme="b" data-add-back-btn="true" data-back-btn-text="Previous" data-back-btn-theme="b">
+		
+		    <div data-role="header" data-theme="b" data-role="controlgroup">
+		        <h1>Movie Details</h1>
+		    </div>
+		
+		
+		    <div data-role="content" data-theme="d" id="content-main">
+		        <div data-role="fieldcontainer">
+					
+				</div>
+				<ul id="movielistview" data-role="listview" data-inset="true" data-theme="d" data-dividertheme="d">
+			
+				</ul>
+		    </div>
+		
+		    <div data-role="footer" data-position="fixed" data-theme="b">
+		        <div data-role="navbar">
+		            <center>Footer</center>
+		        </div>
+		    </div>
+		
+		</div>
+		
+		
+		<!--
+		/********************************************************
+		*  Movie Details 
+		*********************************************************/
+		-->
+		
+		<div id="movie" data-role="page" data-theme="b" data-add-back-btn="true" data-back-btn-text="Previous" data-back-btn-theme="b">
+		
+		    <div data-role="header" data-theme="b" data-role="controlgroup">
+		    	<h1>Movie Details</h1>
+		    </div>
+		
+		
+		    <div data-role="content">
+				<div data-role="fieldcontainer">
+					<ul id="movieview" data-role="listview" data-inset="true" data-theme="d" data-dividertheme="d">
+			
+					</ul>
+				</div>
+		    </div>
+		
+		    <div data-role="footer" data-position="fixed" data-theme="b">
+		        <div data-role="navbar">
+		            <center>Footer</center>
+		        </div>
+		    </div>
+		
+		</div>
+		
+		<!--
+		/********************************************************
+		*  Movie Overview Text
+		*********************************************************/
+		-->
+		
+		<div id="movieoverview" data-role="page" data-theme="b" data-add-back-btn="true" data-back-btn-text="Previous" data-back-btn-theme="b">
+		
+		    <div data-role="header" data-theme="b" data-role="controlgroup">
+		        <h1>Movie Overview</h1>
+		    </div>
+		
+		
+		    <div data-role="content">
+				<div data-role="fieldcontainer">
+					<ul id="moviesummary" data-role="listview" data-inset="true" data-theme="d" data-dividertheme="d">
+			
+					</ul>
+				</div>
+		    </div>
+		
+		    <div data-role="footer" data-position="fixed" data-theme="b">
+		        <div data-role="navbar">
+		            <center>Footer</center>
+		        </div>
+		    </div>
+		
+		</div>
+		
+	
+	</body>
+</html>
